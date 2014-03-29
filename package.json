@@ -1,0 +1,30 @@
+{
+  "name": "lib-stream-future",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "jshint": "~2.4.4",
+    "lib-stream-liquify": "~0.0.0",
+    "lib-stream-solidify": "~0.0.0"
+  },
+  "devDependencies": {
+    "tap": "~0.4.8"
+  },
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/groundwater/node-lib-stream-future.git"
+  },
+  "author": "Jacob Groundwater <groundwater@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/groundwater/node-lib-stream-future/issues"
+  },
+  "homepage": "https://github.com/groundwater/node-lib-stream-future"
+}
