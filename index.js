@@ -14,6 +14,8 @@ function FutureDuplex(opts) {
   this._writable_encoding = null;
   this._writable_callback = null;
 
+  // end was called before a writable was set
+  this._witable_end = false;
 }
 util.inherits(FutureDuplex, stream.Duplex);
 
@@ -34,17 +36,26 @@ function pushIfData(into, from, size) {
   }
 }
 
-FutureDuplex.prototype.setWritable = function setWritable(writable) {
-  this.on('finish', function () {
-    writable.end();
-  });
+FutureDuplex.prototype.end = function (chunk, encoding, callback) {
+  stream.Duplex.prototype.end.call(this, chunk, encoding, callback);
 
+  var writable = this._writable;
+
+  if (writable) writable.end(chunk, encoding, callback);
+  else          this._writable_end = arguments;
+};
+
+FutureDuplex.prototype.setWritable = function setWritable(writable) {
   this._writable = writable;
 
   if (this._writable_chunk) {
     writable.write(this._writable_chunk,
                    this._writable_encoding,
                    this._writable_callback);
+  }
+
+  if (this._writable_end) {
+    writable.end.apply(writable, this._writable_end);
   }
 };
 
