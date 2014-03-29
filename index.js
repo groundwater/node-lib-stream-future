@@ -43,6 +43,8 @@ FutureDuplex.prototype.end = function (chunk, encoding, callback) {
 
   if (writable) writable.end(chunk, encoding, callback);
   else          this._writable_end = arguments;
+
+  return this;
 };
 
 FutureDuplex.prototype.setWritable = function setWritable(writable) {
