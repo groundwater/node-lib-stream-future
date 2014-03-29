@@ -1,6 +1,6 @@
 {
   "name": "lib-stream-future",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "duplex stream that can be fulfilled in the future",
   "main": "index.js",
   "directories": {
