@@ -41,7 +41,7 @@ FutureDuplex.prototype.end = function (chunk, encoding, callback) {
 
   var writable = this._writable;
 
-  if (writable) writable.end(chunk, encoding, callback);
+  if (writable) writable.end();
   else          this._writable_end = arguments;
 
   return this;
@@ -57,7 +57,7 @@ FutureDuplex.prototype.setWritable = function setWritable(writable) {
   }
 
   if (this._writable_end) {
-    writable.end.apply(writable, this._writable_end);
+    writable.end();
   }
 };
 
