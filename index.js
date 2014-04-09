@@ -19,21 +19,14 @@ function FutureDuplex(opts) {
 }
 util.inherits(FutureDuplex, stream.Duplex);
 
-function pushIfData(into, from, size) {
+function pushIfData(from, size) {
+  /*jshint validthis:true */
   var blob = from.read(size);
 
   // Filter null blobs, because pushing a null blob means
   // that the stream is done. This is a weird behavior, but
   // I imagine there is a rationale behind it.
-  if (blob === null) {
-    from.on('readable', onReadable);
-  } else {
-    into.push(blob);
-  }
-
-  function onReadable() {
-    pushIfData(into, from, size);
-  }
+  if (blob) this.push(blob);
 }
 
 FutureDuplex.prototype.end = function (chunk, encoding, callback) {
@@ -80,10 +73,13 @@ FutureDuplex.prototype.setReadable = function (readable) {
     self.push(null);
   });
 
+  // i don't know how to test this,
+  // but we want to only listen to event emitters once
+  readable.on('readable', pushIfData.bind(this, readable));
+
   // if .read was called before a readable was set,
   // we need to immediately push some data
-  if (size > -1)
-    pushIfData(this, readable);
+  pushIfData.call(this, readable);
 
   this._readable = readable;
 };
@@ -92,7 +88,7 @@ FutureDuplex.prototype._read = function (size) {
   if (!this._readable) {
     this._read_wait = size;
   } else {
-    pushIfData(this, this._readable);
+    pushIfData.call(this, this._readable);
   }
 };
 
