@@ -5,13 +5,18 @@ var future = require('../index.js');
 var liquify = require('lib-stream-liquify');
 var solidify = require('lib-stream-solidify');
 
+function noop(){}
+
 test("proxy end when called after setWritable", function (t) {
   t.plan(1);
 
   var mock = {
     end: function() {
       t.ok(true);
-    }
+    },
+    on: noop,
+    once: noop,
+    emit: noop,
   };
 
   var f = future();
@@ -26,7 +31,10 @@ test("proxy end when called before setWritable", function (t) {
   var mock = {
     end: function() {
       t.ok(true);
-    }
+    },
+    on: noop,
+    once: noop,
+    emit: noop,
   };
 
   var f = future();
