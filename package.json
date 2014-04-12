@@ -7,7 +7,6 @@
     "test": "test"
   },
   "dependencies": {
-    "jshint": "~2.4.4",
     "lib-stream-liquify": "~0.0.0",
     "lib-stream-solidify": "~0.0.0"
   },
