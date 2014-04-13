@@ -43,6 +43,11 @@ FutureDuplex.prototype.setWritable = function(writable) {
 };
 
 FutureDuplex.prototype.setReadable = function(readable) {
+  var self = this;
+  readable.on('close', function () {
+    self.emit('close');
+  });
+
   readable.pipe(this.readable);
 };
 
